@@ -6,5 +6,5 @@
   - `./install_registry fe1 admin portainer1234`
 4. copiar el certificado generado en `~/registry/certs/fe1.crt` para el nodo manager del cluster docker swarm
 5. mover el archivo `fe1.crt` en el nodo manager de docker swarm para la carpeta `/usr/local/share/ca-certificates`
-6. correr el comand `update-ca-certificates`
+6. correr el comando `update-ca-certificates`
 7. reiniciar docker swarm
