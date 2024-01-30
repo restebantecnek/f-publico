@@ -1,6 +1,6 @@
 # Creación de registro de contenedores privado en Docker con certificado privado y autenticación
 
-1. bajar el archivo `install_registry.sh` en una carpeta en el servidor que va a ser el registry interno
+1. bajar el archivo `install_registry.sh` en una carpeta en el servidor de registry privado
 2. cambiar las propriedades del script para ejecutable con 'chmod +x install_registry.sh`
 3. correr el script con las variables de **nombre de certificado**, **usuario del registry** y **clave**, por ejemplo:
   - `./install_registry fe1 admin portainer1234`
