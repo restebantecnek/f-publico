@@ -45,7 +45,7 @@ cd ~/registry
 
 docker run -d \
 --restart=always \
---name registryTecnek01 \
+--name $CERT_NAME \
 -v `pwd`/auth:/auth \
 -v `pwd`/certs:/certs \
 -v `pwd`/certs:/certs \
