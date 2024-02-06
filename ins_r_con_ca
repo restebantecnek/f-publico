@@ -12,6 +12,36 @@ cd ~/registry/certs
 openssl genrsa 2048 > $CERT_NAME.key
 chmod 400 $CERT_NAME.key
 
+cat << EOF > ca_$CERT_NAME.cnf
+[req]
+default_bits  = 2048
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = XX
+ST = N/A
+L = N/A
+O = Example.com
+OU = CA
+CN = ca.ejemplo.com
+
+[req_ext]
+keyUsage = keyEncipherment, dataEncipherment, keyCertSign
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[v3_req]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = CA:true
+
+[alt_names]
+DNS.1 = ca.ejemplo.com
+EOF
+
 cat << EOF > san.cnf
 [req]
 default_bits  = 2048
