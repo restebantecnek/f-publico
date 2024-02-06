@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# test2
 # curl -fsSL https://github.com/restebantecnek/f-publico/raw/main/ins_r_con_ca -o instalarRepo.sh && sh instalarRepo.sh REPO03 tecnek tecnek
 
 IP_ADDRESS=`ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p'`
