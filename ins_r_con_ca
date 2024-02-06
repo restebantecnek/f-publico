@@ -9,6 +9,7 @@ PASSWORD=$3
 
 cd
 
+mkdir ~/$CERT_NAME
 mkdir ~/$CERT_NAME/registry
 mkdir -p ~/$CERT_NAME/registry/certs
 mkdir -p ~/$CERT_NAME/registry/auth
