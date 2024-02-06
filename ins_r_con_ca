@@ -7,10 +7,12 @@ CERT_NAME=$1
 USERNAME=$2
 PASSWORD=$3
 
-mkdir ~/registry
-mkdir -p ~/registry/certs
-mkdir -p ~/registry/auth
-cd ~/registry/certs
+cd
+
+mkdir ~/$CERT_NAME/registry
+mkdir -p ~/$CERT_NAME/registry/certs
+mkdir -p ~/$CERT_NAME/registry/auth
+cd ~/$CERT_NAME/registry/certs
 openssl genrsa 2048 > $CERT_NAME.key
 chmod 400 $CERT_NAME.key
 
@@ -73,7 +75,7 @@ EOF
 # cd ../auth
 # docker run --rm --entrypoint htpasswd registry:2.7.0 -Bbn $USERNAME $PASSWORD > htpasswd
 
-# cd ~/registry
+# cd ~/$CERT_NAME/registry
 
 # docker run -d \
 # --restart=always \
