@@ -1,0 +1,24 @@
+[ req ]
+default_bits       = 2048
+default_md         = sha256
+prompt             = no
+encrypt_key        = no
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+
+[ req_distinguished_name ]
+C  = ES
+ST = Madrid
+L  = Madrid
+O  = Tecnek
+OU = TecnekDevOps
+CN = 192.168.202.104
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = 192.168.202.104
+IP.1 = 192.168.202.104
+IP.2 = 0.0.0.0
+
