@@ -1,12 +1,16 @@
 network:
-    version: 2
-    renderer: NetworkManager
     ethernets:
         ens18:
             addresses:
-                - 192.168.202.93/24
+            - 192.168.202.93/24
             nameservers:
-                addresses: [8.8.8.8, 8.8.4.4]
+                addresses:
+                - 8.8.8.8
+                - 8.8.8.8
+                search:
+                - 1.1.1.1
+                - 1.1.1.1
             routes:
-                - to: default
-                  via: 192.168.202.1
+            -   to: default
+                via: 192.168.202.1
+    version: 2
