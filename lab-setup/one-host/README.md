@@ -22,7 +22,13 @@ chmod +x setup.sh
 docker compose up
 ```
 6. Go to (https://localhost:9444) and setup the initial user and password
-7. Go to Registries option in **Portainer.io (localhost:9444)** and add each Registry (registry-1, registry-2, registry-3) using the web interface remember the port should be 5000. (Please check the attached images for details) At this step you will need to configure the TLS validation using the registry-1.cert and registry-1.key created at step 3.
+7. Go to Registries option in **Portainer.io (localhost:9444)** and add each Registry
+    - registry-1
+    - registry-2
+    - registry-3
+    Using the web interface remember the port should be 5000. (Please check the attached images for details) 
+    - After you added the registry click on **Browse** you will see and error **Registry management configuration required** Click in the option **"Configure this registry"** -> Enable TLS and use the registry-1.cert and registry-1.key created at step 3, each container will have their own certificate and key.
+
 8. Go to Environments option in **Portainer.io (localhost:9444)** and add the two containers (docker-staging, docker-prod) use the option **Docker Standalone** -> **API** you will need to active TLS verification and use the certificates created at step 3.
 9. After following the previous steps your will have:
     - Portainer service managing:
