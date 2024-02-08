@@ -1,0 +1,9 @@
+network:
+  ethernets:
+    ens18:
+      dhcp4: no
+      addresses: [192.168.202.93/24]
+      gateway4: 192.168.201.1
+      nameservers:
+         addresses: [8.8.8.8,8.8.4.4]
+  version: 2
