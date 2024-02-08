@@ -5,4 +5,4 @@ curl -fsSL  https://github.com/restebantecnek/f-publico/raw/main/ip-static -o 00
 openssl req -new -nodes -out myregistry.csr -config openssl.cnf -keyout myregistry.key
 
 #STEP 2Create certificate
-openssl x509 -req -days 365 -in myregistry.csr -signKey myregistry.key -out myregistry.crt -extensions req_ext -extfile openssl.cnf
+openssl x509 -req -days 365 -in myregistry.csr -signkey myregistry.key -out myregistry.crt -extfile openssl.cnf -extensions req_ext
