@@ -4,7 +4,7 @@ network:
     ethernets:
         ens18:
             addresses:
-                - 192.168.202.93/24
+                - 192.168.202.94/24
             nameservers:
                 addresses: [8.8.8.8, 8.8.4.4]
             routes:
