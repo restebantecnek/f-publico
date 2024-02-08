@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    command: -H unix:///var/run/docker.sock --ssl --sslcert /certs/portainer.crt --sslkey /certs/portainer.key
+    ports:
+      - "9444:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+      - ./certs/portainer.crt:/certs/portainer.crt
+      - ./certs/portainer.key:/certs/portainer.key
+volumes:
+  portainer_data:
