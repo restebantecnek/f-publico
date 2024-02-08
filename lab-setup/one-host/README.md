@@ -21,6 +21,7 @@ chmod +x setup.sh
 ```docker
 docker compose up
 ```
+### Please look at the directory "instructions-images" for the next steps
 6. Go to (https://localhost:9444) and setup the initial user and password
 7. Go to Registries option in **Portainer.io (localhost:9444)** and add each Registry
     - registry-1
