@@ -25,7 +25,7 @@ countryName = XX
 stateOrProvinceName = N/A
 localityName = N/A
 organizationName = Self-signed certificate
-commonName = 127.0.0.1: Self-signed certificate
+commonName = 120.0.0.1: Self-signed certificate
 
 [req_ext]
 subjectAltName = @alt_names
@@ -45,7 +45,7 @@ cd ~/registry
 
 docker run -d \
 --restart=always \
---name $CERT_NAME \
+--name registry \
 -v `pwd`/auth:/auth \
 -v `pwd`/certs:/certs \
 -v `pwd`/certs:/certs \
