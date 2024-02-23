@@ -1,30 +1,53 @@
 #!/bin/bash
 
-# Directorio para los certificados y datos persistentes
+# Directory for certificates and persistent data
 CERT_DIR="./certs"
 DATA_DIR="./data"
 
+# Create directories if they don't exist
 mkdir -p "${CERT_DIR}"
 mkdir -p "${DATA_DIR}"
+mkdir -p "./certs/docker-staging"
+mkdir -p "./certs/docker-prod"
 
-# Función para generar certificado con SANs
+
+# Function to generate a Root CA certificate and key
+generate_root_ca() {
+  echo "Generating Root CA..."
+
+  # Root CA files with .pem extension
+  ROOT_CA_CERT="${CERT_DIR}/rootCA.pem"
+  ROOT_CA_KEY="${CERT_DIR}/rootCA.key"
+
+  # Check if Root CA files already exist
+  if [ -f "${ROOT_CA_CERT}" ] && [ -f "${ROOT_CA_KEY}" ]; then
+    echo "Root CA already exists, skipping."
+    return
+  fi
+
+  # Generate Root CA
+  openssl req -x509 -new -nodes -days 3650 -newkey rsa:4096 -keyout "${ROOT_CA_KEY}" -out "${ROOT_CA_CERT}" -subj "/C=ES/ST=Madrid/L=Madrid/O=tecnek/OU=CA/CN=tecnek Root CA"
+}
+
+# Function to generate a certificate with SANs and sign it with the Root CA
 generate_certificate() {
   SERVICE_NAME=$1
   COMMON_NAME="${SERVICE_NAME}"
 
   SAN="DNS:${COMMON_NAME},DNS:${SERVICE_NAME}"
 
-  # Rutas de archivos de certificado y clave
-  CERT_FILE="${CERT_DIR}/${SERVICE_NAME}.cert"
+  # Certificate and key paths with .pem extension for clarity
+  CERT_FILE="${CERT_DIR}/${SERVICE_NAME}.pem"
   KEY_FILE="${CERT_DIR}/${SERVICE_NAME}.key"
+  CSR_FILE="${CERT_DIR}/${SERVICE_NAME}.csr"
 
-  # Verificar si el certificado y la clave ya existen
+  # Check if the certificate and key already exist
   if [ -f "$CERT_FILE" ] && [ -f "$KEY_FILE" ]; then
-    echo "Los certificados para ${SERVICE_NAME} ya existen, omitiendo la generación."
+    echo "Certificates for ${SERVICE_NAME} already exist, skipping generation."
     return
   fi
 
-  # Crear archivo de configuración de OpenSSL para SANs
+  # Create OpenSSL config file for SANs
   CONFIG_FILE="${CERT_DIR}/${SERVICE_NAME}_openssl.cnf"
 
   cat > "${CONFIG_FILE}" <<- EOF
@@ -48,19 +71,22 @@ CN = ${COMMON_NAME}
 subjectAltName = ${SAN}
 EOF
 
-  # Generar el certificado utilizando el archivo de configuración
-  openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout "$KEY_FILE" \
-    -out "$CERT_FILE" \
-    -config "${CONFIG_FILE}" \
-    -extensions req_ext
+  # Generate CSR
+  openssl req -new -nodes -newkey rsa:2048 -keyout "$KEY_FILE" -out "$CSR_FILE" -config "${CONFIG_FILE}" -extensions req_ext
 
-  # Limpiar el archivo de configuración temporal
+  # Sign the CSR with the Root CA
+  openssl x509 -req -in "$CSR_FILE" -CA "${CERT_DIR}/rootCA.pem" -CAkey "${CERT_DIR}/rootCA.key" -CAcreateserial -out "$CERT_FILE" -days 365 -extensions req_ext -extfile "${CONFIG_FILE}"
+
+  # Cleanup
   rm "${CONFIG_FILE}"
+  rm "${CSR_FILE}"
 }
 
-# Generar certificados para los servicios especificados
-SERVICES="portainer registry-1 registry-2 registry-3 docker-staging docker-prod"
+# Generate Root CA
+generate_root_ca
+
+# Generate certificates for specified services
+SERVICES="portainer registry-1 registry-2 registry-3 docker-prod docker-staging"
 for SERVICE in $SERVICES; do
   generate_certificate $SERVICE
 done

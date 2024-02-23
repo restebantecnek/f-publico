@@ -1,0 +1,8 @@
+# Use the official Docker-in-Docker image
+FROM docker:dind
+
+# Copy your CA certificate into the image
+COPY ./certs/rootCA.pem /usr/local/share/ca-certificates/ca.crt
+
+# Update CA certificates in the image to trust your CA
+RUN update-ca-certificates

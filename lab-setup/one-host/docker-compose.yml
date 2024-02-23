@@ -4,7 +4,7 @@ services:
   portainer:
     image: portainer/portainer-ee:latest
     container_name: portainer
-    command: --ssl --sslcert /certs/portainer.cert --sslkey /certs/portainer.key
+    command: --ssl --sslcert /certs/portainer.pem --sslkey /certs/portainer.key
     ports:
       - "9444:9443"
     volumes:
@@ -20,14 +20,13 @@ services:
     container_name: registry-1
     restart: always
     environment:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-1.cert
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-1.pem
       REGISTRY_HTTP_TLS_KEY: /certs/registry-1.key
     ports:
       - "5000:5000"
     volumes:
       - registry1_data:/var/lib/registry
-      - "./certs/registry-1.cert:/certs/registry-1.cert"
-      - "./certs/registry-1.key:/certs/registry-1.key"
+      - "./certs:/certs:ro"
     networks:
       - my_network
 
@@ -36,14 +35,13 @@ services:
     container_name: registry-2
     restart: always
     environment:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-2.cert
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-2.pem
       REGISTRY_HTTP_TLS_KEY: /certs/registry-2.key
     ports:
       - "5001:5000"
     volumes:
       - registry2_data:/var/lib/registry
-      - "./certs/registry-2.cert:/certs/registry-2.cert"
-      - "./certs/registry-2.key:/certs/registry-2.key"
+      - "./certs:/certs:ro"
     networks:
       - my_network
 
@@ -52,30 +50,20 @@ services:
     container_name: registry-3
     restart: always
     environment:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-3.cert
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-3.pem
       REGISTRY_HTTP_TLS_KEY: /certs/registry-3.key
     ports:
       - "5002:5000"
     volumes:
       - registry3_data:/var/lib/registry
-      - "./certs/registry-3.cert:/certs/registry-3.cert"
-      - "./certs/registry-3.key:/certs/registry-3.key"
+      - "./certs:/certs:ro"
     networks:
       - my_network
-
-  developer:
-    image: docker:latest
-    depends_on:
-      - registry-1
-      - registry-2
-      - registry-3
-    command: sh -c "while sleep 1000; do :; done"
-    networks:
-      - my_network
-    restart: always
 
   docker-staging:
-    image: docker:dind
+    build:
+      context: .
+      dockerfile: Dockerfile.dind
     container_name: docker-staging
     privileged: true
     environment:
@@ -84,14 +72,16 @@ services:
       - "2375:2376"
     volumes:
       - staging_docker_data:/var/lib/docker
-      - "./certs/docker-staging.cert:/certs/server/cert.pem"
-      - "./certs/docker-staging.key:/certs/server/key.pem"
-      - "./certs/docker-staging.cert:/certs/server/ca.pem"
+      - ./certs/docker-staging.pem:/certs/server/cert.pem
+      - ./certs/docker-staging.key:/certs/server/key.pem
+      - ./certs/rootCA.pem:/certs/server/ca.pem
     networks:
       - my_network
 
   docker-prod:
-    image: docker:dind
+    build:
+      context: .
+      dockerfile: Dockerfile.dind
     container_name: docker-prod
     privileged: true
     environment:
@@ -100,9 +90,9 @@ services:
       - "2376:2376"
     volumes:
       - prod_docker_data:/var/lib/docker
-      - "./certs/docker-prod.cert:/certs/server/cert.pem"
-      - "./certs/docker-prod.key:/certs/server/key.pem"
-      - "./certs/docker-prod.cert:/certs/server/ca.pem" # Se utiliza el mismo certificado debido a que no tenemos un CA implementado
+      - ./certs/docker-prod.pem:/certs/server/cert.pem
+      - ./certs/docker-prod.key:/certs/server/key.pem
+      - ./certs/rootCA.pem:/certs/server/ca.pem
     networks:
       - my_network
 

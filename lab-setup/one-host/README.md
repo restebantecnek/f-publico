@@ -15,7 +15,6 @@ chmod +x setup.sh
     - registry-1 (Container running a service registry)
     - registry-2 (Container running a service registry)
     - registry-3 (Container running a service registry)
-    - developer (Container running a basic service, used to test the push and get images)
     - docker-staging (Container running a Docker in Docker service, the objective its to serve the containers of stating environment)
     - docker-prod (Container running a Docker in Docker service, the objective its to serve the containers of stating environment)
 ```docker
@@ -28,13 +27,14 @@ docker compose up
     - registry-2
     - registry-3
     Using the web interface remember the port should be 5000. (Please check the attached images for details) 
-    - After you added the registry click on **Browse** you will see and error **Registry management configuration required** Click in the option **"Configure this registry"** -> Enable TLS and use the registry-1.cert and registry-1.key created at step 3, each container will have their own certificate and key.
+    - After you added the registry click on **Browse** you will see and error **Registry management configuration required** Click in the option **"Configure this registry"** -> Enable TLS and use the registry-1.cert and registry-1.key created at step 3, each container will have their own certificate and key. **TLS CA Certificate always use rootCA.pem**
 
-8. Go to Environments option in **Portainer.io (localhost:9444)** and add the two containers (docker-staging, docker-prod) use the option **Docker Standalone** -> **API** you will need to active TLS verification and use the certificates created at step 3.
+8. Go to Environments option in **Portainer.io (localhost:9444)** and add the two containers (docker-staging, docker-prod) use the option **Docker Standalone** -> **API** you will need to active TLS verification and use the certificates created at step 3.**TLS CA Certificate always use rootCA.pem**
+
 9. After following the previous steps your will have:
     - Portainer service managing:
         - 3 Registries (Secure Traffic SSL)
         - 2 Environments (Secure Traffic SSL)
 
 ## Notes:
-The docker-compose file will create in the same directory a directory called "data" inside this object al persistent information will be saved permanently even if the containers are stopped or deleted.
+Please remember to select one environment in portainer (Do not use local).
