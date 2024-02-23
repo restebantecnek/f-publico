@@ -7,8 +7,6 @@ DATA_DIR="./data"
 # Create directories if they don't exist
 mkdir -p "${CERT_DIR}"
 mkdir -p "${DATA_DIR}"
-mkdir -p "./certs/docker-staging"
-mkdir -p "./certs/docker-prod"
 
 
 # Function to generate a Root CA certificate and key
