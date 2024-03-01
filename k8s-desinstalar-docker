@@ -1,0 +1,18 @@
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -a -q)
+docker network prune
+docker system prune -a
+sudo apt remove docker-* --auto-remove
+sudo rm -rf /var/lib/docker
+sudo groupdel docker
+sudo rm -rf /var/run/docker.sock
+sudo rm -rf /usr/local/bin/docker-compose && sudo rm -rf /etc/docker && sudo rm -rf ~/.docker
+docker
+
+sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
+sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin
+
+
+service docker stop
+dpkg -l | grep -i docker
