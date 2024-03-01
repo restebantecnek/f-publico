@@ -1,6 +1,8 @@
 #!/bin/bash
 
-read -p "¿Qué nombre de máquina pongo? TKSRVK8SNODE01L? " name && sudo hostnamectl set-hostname $name
+# hay que poner el nombre bien y reiniciar
+# read -p "¿Qué nombre de máquina pongo? TKSRVK8SNODE01L? " name && sudo hostnamectl set-hostname $name
+# init 6
 
 # curl -fsSL https://github.com/restebantecnek/f-publico/raw/main/k8s-node -o k8s-node.sh 
 # sudo sh k8s-node.sh
