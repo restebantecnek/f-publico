@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo hostnamectl set-hostname master-node
+
 # curl -fsSL https://github.com/restebantecnek/f-publico/raw/main/k8s-master -o k8s-master.sh 
 # sudo sh k8s-master.sh
 
