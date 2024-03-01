@@ -94,4 +94,4 @@ sudo sed -i '/ swap / s/^/#/' /etc/fstab
 
 
 echo "Asociando..."
-sudo kubeadm join 192.168.202.215:6443 --token sejgjz.7k8m68gi2uf4jwar --discovery-token-ca-cert-hash sha256:583f4ffa07ba1beefde242cf9188709d7d05b59af8dbaab060ada7c42219a7c8
+# sudo kubeadm join 192.168.202.215:6443 --token sejgjz.7k8m68gi2uf4jwar --discovery-token-ca-cert-hash sha256:583f4ffa07ba1beefde242cf9188709d7d05b59af8dbaab060ada7c42219a7c8
