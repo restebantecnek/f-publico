@@ -94,6 +94,7 @@ sudo systemctl enable kubelet.service
 echo "Disabling swap..."
 sudo swapoff -a
 sudo sed -i '/ swap / s/^/#/' /etc/fstab
+sudo sed -i '/\/swap/s/^/#/' /etc/fstab
 
 echo "Pre-pulling Kubernetes control plane images..."
 sudo kubeadm config images pull
