@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -p "¿Qué nombre de máquina pongo? TKSRVK8SMASTER01L? " name && sudo hostnamectl set-hostname $name
+# read -p "¿Qué nombre de máquina pongo? TKSRVK8SMASTER01L? " name && sudo hostnamectl set-hostname $name
 
 
 # curl -fsSL https://github.com/restebantecnek/f-publico/raw/main/k8s-master -o k8s-master.sh 
