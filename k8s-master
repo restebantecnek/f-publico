@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sudo hostnamectl set-hostname master-node
+read -p "¿Qué nombre de máquina pongo? TKSRVK8SMASTER01L? " name
+sudo hostnamectl set-hostname $name
+
 
 # curl -fsSL https://github.com/restebantecnek/f-publico/raw/main/k8s-master -o k8s-master.sh 
 # sudo sh k8s-master.sh
