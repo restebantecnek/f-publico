@@ -100,11 +100,11 @@ echo "Pre-pulling Kubernetes control plane images..."
 sudo kubeadm config images pull
 
 echo "Performing dry run of kubeadm init..."
-sudo kubeadm init --pod-network-cidr=192.168.202.0/24 --dry-run
+sudo kubeadm init --pod-network-cidr=192.168.203.0/24 --dry-run
 
 if [ $? -eq 0 ]; then
     echo "Dry run successful. Proceeding with actual cluster initialization..."
-    sudo kubeadm init --pod-network-cidr=192.168.202.0/24
+    sudo kubeadm init --pod-network-cidr=192.168.203.0/24
     
     echo "Setting up local kubeconfig..."
     mkdir -p $HOME/.kube
