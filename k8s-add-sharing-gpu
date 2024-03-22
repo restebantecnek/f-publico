@@ -1,0 +1,31 @@
+## https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html
+
+# Instalar controlador gráficas en Kubernetes
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia && helm repo update
+helm install --wait --generate-name \
+    -n gpu-operator --create-namespace \
+    nvidia/gpu-operator
+
+
+# Activar compartir memoria de la GPU entre procesos
+echo "apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: time-slicing-config
+data:
+  any: |-
+    version: v1
+    flags:
+      migStrategy: none
+    sharing:
+      timeSlicing:
+        renameByDefault: false
+        failRequestsGreaterThanOne: false
+        resources:
+          - name: nvidia.com/gpu
+            replicas: 4" > time-slicing-config-all.yaml
+kubectl create -n gpu-operator -f time-slicing-config-all.yaml
+kubectl patch clusterpolicies.nvidia.com/cluster-policy \
+    -n gpu-operator --type merge \
+    -p '{"spec": {"devicePlugin": {"config": {"name": "time-slicing-config-all", "default": "any"}}}}'
+kubectl get events -n gpu-operator --sort-by='.lastTimestamp'
